@@ -12,7 +12,10 @@ pip install sec_api_io
 
 ## How to use
 
-### Set API key
+### (Optional) Set API key with `.env` file
+
+It’s highly recommended to set your API key in a `.env` file to avoid
+setting it in the code.
 
 1.  Make a copy of the `.env.template` file in the root directory of the
     project.
@@ -29,6 +32,10 @@ pip install sec_api_io
 
 Let’s load the API key from .env file into the environment variable
 SECAPIO_API_KEY
+
+``` python
+!pip install -q python-dotenv
+```
 
 ``` python
 import os 
