@@ -1,0 +1,9 @@
+project:
+  output-dir: _docs
+
+website:
+  title: "sec-api-io"
+  site-url: "https://Elijas.github.io/sec-api-io"
+  description: "Unofficial facade for the sec-api.io, SEC EDGAR 10-Q document downloader"
+  repo-branch: main
+  repo-url: "https://github.com/Elijas/sec-api-io"
