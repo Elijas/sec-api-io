@@ -5,7 +5,6 @@ import re
 from typing import TYPE_CHECKING
 
 import httpx
-
 from sec_api_io.abstract_sec_data_retriever import (
     AbstractSECDataRetriever,
     DocumentTypeNotSupportedError,
@@ -133,13 +132,13 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
             title = SECTION_NAMES[section]
             title = re.sub(r"[^a-zA-Z0-9' ]+", "", title)
             separator_html = (
-                "<document-root-section"
+                "<root-section-separator"
+                f' id="{section.value}"'
+                f' title="{title}"'
                 ' comment="This tag was added by '
                 'SecApiIoDataRetriever class based on sec-api.io API"'
-                f' id="{section.value}"'
                 ' style="display: none;"'
-                f' title="{title}">'
-                "</document-root-section>"
+                "</root-section-separator>"
             )
             html_parts.append(separator_html)
             section_html = self._call_sections_extractor_api(
