@@ -1,6 +1,12 @@
 version: '3'
 
 tasks:
+  bump:
+    desc: Bump version
+    cmds:
+      - nbdev_bump_version
+      - git commit --amend --no-edit
+
   deploy:
     desc: Deploy the changes
     cmds:
