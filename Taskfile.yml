@@ -6,6 +6,7 @@ tasks:
     cmds:
       - nbdev_prepare
       - task: ensure-clean-working-tree
+      - git pull --no-edit
       - git push
       - nbdev_pypi
 
