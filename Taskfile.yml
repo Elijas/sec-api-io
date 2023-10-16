@@ -1,0 +1,16 @@
+version: '3'
+
+tasks:
+  deploy:
+    desc: Deploy the changes
+    cmds:
+      - nbdev_prepare
+      - task: ensure-clean-working-tree
+      - git push
+      - nbdev_pypi
+
+  ensure-clean-working-tree: # Ensure no changes in the working tree or index, abort if any.
+    silent: true
+    internal: true
+    cmds:
+      - if git diff --exit-code > /dev/null 2>&1 && git diff --cached --exit-code > /dev/null 2>&1; then :; else echo "Changes detected in the working tree or index. Please commit or stash them before proceeding."; exit 1; fi
