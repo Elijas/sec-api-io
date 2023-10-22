@@ -5,7 +5,6 @@ import re
 from typing import TYPE_CHECKING
 
 import httpx
-
 from sec_api_io.abstract_sec_data_retriever import (
     AbstractSECDataRetriever,
     DocumentTypeNotSupportedError,
@@ -83,15 +82,15 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
         self: SecapioDataRetriever,
         doc_type: DocumentType | str,
         *,
-        url: str | None = None,
+        accession_number: str | None = None,
         latest_from_ticker: str | None = None,
     ) -> dict:
         # Validate arguments
-        if not url and not latest_from_ticker:
+        if not accession_number and not latest_from_ticker:
             msg = "either url or ticker must be provided"
             raise ValueError(msg)
-        if url and latest_from_ticker:
-            msg = "only one of url or ticker must be provided"
+        if accession_number and latest_from_ticker:
+            msg = "only one of accession_number or ticker must be provided"
             raise ValueError(msg)
         new_doc_type = (
             DocumentType.from_str(doc_type) if isinstance(doc_type, str) else doc_type
@@ -108,8 +107,8 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
                 key="ticker",
                 value=latest_from_ticker,
             )
-        if url:
-            accession_number = _get_accession_number_from_url(url)
+        if accession_number:
+            accession_number = _extract_accession_number(accession_number)
             metadata = self._call_latest_report_metadata_api(
                 new_doc_type,
                 key="accessionNo",
@@ -215,7 +214,7 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
         return filings[0]
 
 
-def _get_accession_number_from_url(url: str) -> str:
+def _extract_accession_number(url: str) -> str:
     numbers = re.findall(r"\d+", url)
     s = max(numbers, key=len)
     if len(s) != ACCESSION_NUMBER_LENGTH:
