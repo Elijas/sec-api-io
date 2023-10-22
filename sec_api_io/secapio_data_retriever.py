@@ -225,5 +225,3 @@ def _extract_accession_number(url: str) -> str:
         msg = f"expected a str, got {type(result)}"
         raise TypeError(msg)
     return result
-    return result
-    return result
