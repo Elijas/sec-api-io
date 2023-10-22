@@ -10,7 +10,7 @@ tasks:
     desc: Bump version
     cmds:
       - nbdev_bump_version
-      - git add settings.ini sec_downloader/__init__.py
+      - git add settings.ini sec_api_io/__init__.py
       - git commit --amend --no-edit
 
   deploy:
