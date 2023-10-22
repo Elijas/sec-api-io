@@ -136,7 +136,7 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
                 f' id="{section.value}"'
                 f' title="{title}"'
                 ' comment="This tag was added by '
-                'SecApiIoDataRetriever class based on sec-api.io API"'
+                'sec-api-io library based on sec-api.io API"'
                 ' style="display: none;"'
                 "</top-level-section-start-marker>"
             )
@@ -224,4 +224,6 @@ def _extract_accession_number(url: str) -> str:
     if not isinstance(result, str):
         msg = f"expected a str, got {type(result)}"
         raise TypeError(msg)
+    return result
+    return result
     return result
