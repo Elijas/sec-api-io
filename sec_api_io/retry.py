@@ -1,18 +1,6 @@
 from httpx._exceptions import HTTPStatusError
 import random
 import time
-import logging
-
-
-# Configure logger
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-# Make sure INFO from other libraries are not printed
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-ch.setFormatter(logging.Formatter('%(levelname)s - %(message)s'))
-logger.addHandler(ch)
 
  
 def retry_with_exponential_backoff(
@@ -38,7 +26,6 @@ def retry_with_exponential_backoff(
             # Retry on specific errors
             except errors as e:
                 num_retries += 1
-                logger.info(f'[429] retry-{num_retries} for: {args[1]}')
                 # Check if max retries has been reached
                 if num_retries > max_retries:
                     raise Exception(
