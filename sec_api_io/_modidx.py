@@ -6,6 +6,7 @@ d = { 'settings': { 'branch': 'main',
                 'git_url': 'https://github.com/Elijas/sec-api-io',
                 'lib_path': 'sec_api_io'},
   'syms': { 'sec_api_io.abstract_sec_data_retriever': {},
+            'sec_api_io.retry': {},
             'sec_api_io.sec_edgar_enums': {},
             'sec_api_io.sec_edgar_utils': {},
             'sec_api_io.secapio_data_retriever': {}}}
