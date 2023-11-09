@@ -30,6 +30,8 @@ class AbstractSECDataRetriever(ABC):
         url: str,
         *,
         sections: Iterable[SectionType | str] | None = None,
+        use_multithreading: bool = False,
+        workers: int = 1,
     ) -> str:
         doc_type, sections = self._validate_and_convert(doc_type, sections)
 
@@ -41,6 +43,8 @@ class AbstractSECDataRetriever(ABC):
             doc_type,
             url=url,
             sections=sections,
+            use_multithreading=use_multithreading,
+            workers=workers,
         )
 
     @abstractmethod
@@ -50,6 +54,8 @@ class AbstractSECDataRetriever(ABC):
         url: str,
         *,
         sections: Iterable[SectionType] | None = None,
+        use_multithreading: bool = False,
+        workers: int = 1,
     ) -> str:
         raise NotImplementedError  # pragma: no cover
 
