@@ -4,7 +4,9 @@ import os
 import re
 from typing import TYPE_CHECKING
 
+from concurrent.futures import ThreadPoolExecutor
 import httpx
+from sec_api_io.retry import retry_with_exponential_backoff
 from sec_api_io.abstract_sec_data_retriever import (
     AbstractSECDataRetriever,
     DocumentTypeNotSupportedError,
@@ -125,12 +127,51 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
         url: str,
         *,
         sections: Iterable[SectionType] | None = None,
+        use_multithreading: bool = False,
+        workers: int = 1,
     ) -> str:
+        assert workers>=1, "workers cannot be less than 1."
+        if workers>1:
+            assert use_multithreading, "when workers are greater than 1, use_multithreading must be True."
+        if (not use_multithreading) or (workers==1) :
+            html_parts = []
+            sections = sections or FORM_SECTIONS[doc_type]
+            for section in sections:
+                title = SECTION_NAMES[section]
+                title = re.sub(r"[^a-zA-Z0-9' ]+", "", title)
+                separator_html = (
+                    "<top-level-section-start-marker"
+                    f' id="{section.value}"'
+                    f' title="{title}"'
+                    ' comment="This tag was added by '
+                    'sec-api-io library based on sec-api.io API"'
+                    ' style="display: none;"'
+                    "</top-level-section-start-marker>"
+                )
+                html_parts.append(separator_html)
+                section_html = self._call_sections_extractor_api(
+                    url,
+                    section,
+                )
+                html_parts.append(section_html)
+            return "\n".join(html_parts)
+        else:
+            return self._get_report_html_with_multithreading(doc_type, url, sections=sections, num_workers=workers)
+
+    def _get_report_html_with_multithreading(
+        self: SecapioDataRetriever,
+        doc_type: DocumentType,
+        url: str,
+        *,
+        sections: Iterable[SectionType] | None = None,
+        num_workers: int = 6
+    ):
         html_parts = []
         sections = sections or FORM_SECTIONS[doc_type]
-        for section in sections:
-            title = SECTION_NAMES[section]
-            title = re.sub(r"[^a-zA-Z0-9' ]+", "", title)
+        with ThreadPoolExecutor(max_workers=num_workers) as executor:
+            section_htmls = list(executor.map(lambda section: self._call_sections_extractor_api(url, section), sections))
+        for section, section_html in zip(sections, section_htmls):
+            title = re.sub(r"[^a-zA-Z0-9' ]+", "", SECTION_NAMES[section])
             separator_html = (
                 "<top-level-section-start-marker"
                 f' id="{section.value}"'
@@ -141,13 +182,10 @@ class SecapioDataRetriever(AbstractSECDataRetriever):
                 "</top-level-section-start-marker>"
             )
             html_parts.append(separator_html)
-            section_html = self._call_sections_extractor_api(
-                url,
-                section,
-            )
             html_parts.append(section_html)
         return "\n".join(html_parts)
 
+    @retry_with_exponential_backoff
     def _call_sections_extractor_api(
         self: SecapioDataRetriever,
         url: str,
