@@ -154,6 +154,6 @@ SECTION_NAMES = frozendict(
         SectionType.FORM_10K_12: "Security Ownership of Certain Beneficial Owners and Management and Related Stockholder Matters",
         SectionType.FORM_10K_13: "Certain Relationships and Related Transactions, and Director Independence",
         SectionType.FORM_10K_14: "Principal Accountant Fees and Services",
-        SectionType.FORM_10K_15: "Section 15 of a 10-K filing", # Note: No information provided about ID `15` in sec-api.io docs (https://sec-api.io/docs/sec-filings-item-extraction-api).
+        SectionType.FORM_10K_15: "Exhibit and Financial Statement Schedules", # Note: No information provided about ID `15` in sec-api.io docs (https://sec-api.io/docs/sec-filings-item-extraction-api).
     },
 )
