@@ -51,12 +51,27 @@ from dotenv import load_dotenv
 load_dotenv() # Load the API key from .env file into the environment variable SECAPIO_API_KEY
 ```
 
+    True
+
 ``` python
 import os 
 from dotenv import load_dotenv
 
 if 'SECAPIO_API_KEY' not in os.environ:
     assert load_dotenv()
+    
+assert 'SECAPIO_API_KEY' in os.environ
+```
+
+``` python
+import os 
+from dotenv import load_dotenv
+
+if 'SECAPIO_API_KEY' not in os.environ:
+    assert load_dotenv()
+    
+assert 'SECAPIO_API_KEY' in os.environ
+assert os.environ['SECAPIO_API_KEY'].strip()
 ```
 
 ### Get latest 10-Q report by ticker
@@ -110,6 +125,7 @@ for line in html.splitlines():
     <span style="color:#000000;font-family:'Helvetica',sans-serif;fon...
     <top-level-section-separator id="part2item6" title="Exhibits" comment=...
     <span style="color:#000000;font-family:'Helvetica',sans-serif;fon...
+
 
 ## Contributing
 
