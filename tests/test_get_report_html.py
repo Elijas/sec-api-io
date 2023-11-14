@@ -33,6 +33,7 @@ def url_10q_expected_html():
 def retriever():
     return SecapioDataRetriever(api_key=os.environ['SECAPIO_API_KEY'])
 
+
 def test_api_key():
     assert load_dotenv()
     assert 'SECAPIO_API_KEY' in os.environ
