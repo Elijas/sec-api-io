@@ -64,7 +64,7 @@ class SecapioRequestError(RuntimeError):
 class SecapioDataRetriever(AbstractSECDataRetriever):
     """Retrieves data from sec-api.io API."""
 
-    SUPPORTED_DOCUMENT_TYPES = frozenset({DocumentType.FORM_10Q})
+    SUPPORTED_DOCUMENT_TYPES = frozenset({DocumentType.FORM_10Q, DocumentType.FORM_10K})
     API_KEY_ENV_VAR_NAME = "SECAPIO_API_KEY"
 
     def __init__(
