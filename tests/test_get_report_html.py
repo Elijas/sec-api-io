@@ -122,7 +122,7 @@ def test_get_report_html_8k(retriever, test_metadata_8k):
             + '-'
             + accession_number[12:]
         )
-        url.replace('https://www.sec.gov/ix?doc=/', 'https://www.sec.gov/').replace('https://www.sec.gov/ix.xhtml?doc=/', 'https://www.sec.gov/')    
+        url = url.replace('https://www.sec.gov/ix?doc=/', 'https://www.sec.gov/').replace('https://www.sec.gov/ix.xhtml?doc=/', 'https://www.sec.gov/')    
         section_ids = [item_col_map[c] for c in item_cols if row[c]] + ['signature']
         # Perform extraction
         actual_html = retriever.get_report_html('8-K', url, sections=section_ids, use_multithreading=True, workers=10)
