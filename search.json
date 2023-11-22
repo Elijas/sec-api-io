@@ -1,0 +1,30 @@
+[
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "sec-api-io",
+    "section": "",
+    "text": "Unofficial wrapper for the sec-api.io API. Built with nbdev."
+  },
+  {
+    "objectID": "index.html#install-and-setup",
+    "href": "index.html#install-and-setup",
+    "title": "sec-api-io",
+    "section": "Install and Setup",
+    "text": "Install and Setup\nRun in terminal:\npip install sec_api_io"
+  },
+  {
+    "objectID": "index.html#how-to-use",
+    "href": "index.html#how-to-use",
+    "title": "sec-api-io",
+    "section": "How to use",
+    "text": "How to use\n\n(Optional) Set API key with .env file\nIt’s highly recommended to set your API key in a .env file to avoid setting it in the code.\n\nMake a copy of the .env.template file in the root directory of the project.\nRename the copied file to .env.\nOpen the .env file and locate the SECAPIO_API_KEY variable.\nFill in the value for the SECAPIO_API_KEY variable.\n\nYou can obtain a free key from sec-api.io.\nNote: The first 100 requests are free.\n\nSave the .env file next to your notebook or script.\n\n\nImportant Note: Depending on your geographical location, you might need to use a VPN set to a United States location to access sec-api.io API.\n\nLet’s load the API key from .env file into the environment variable SECAPIO_API_KEY\n\n!pip install -q python-dotenv\n\n\nfrom dotenv import load_dotenv\n\nload_dotenv() # Load the API key from .env file into the environment variable SECAPIO_API_KEY\n\nTrue\n\n\n\nimport os \nfrom dotenv import load_dotenv\n\nif 'SECAPIO_API_KEY' not in os.environ:\n    assert load_dotenv()\n    \nassert 'SECAPIO_API_KEY' in os.environ\n\n\nimport os \nfrom dotenv import load_dotenv\n\nif 'SECAPIO_API_KEY' not in os.environ:\n    assert load_dotenv()\n    \nassert 'SECAPIO_API_KEY' in os.environ\nassert os.environ['SECAPIO_API_KEY'].strip()\n\n\n\nGet latest 10-Q report by ticker\n\nfrom sec_api_io.secapio_data_retriever import SecapioDataRetriever\n\nretriever = SecapioDataRetriever()\n# retriever = SecapioDataRetriever(api_key=...) # If you don't want to use .env file\n\nmetadata = retriever.retrieve_report_metadata('10-Q', latest_from_ticker='AAPL')\nurl = metadata[\"linkToFilingDetails\"]\n\nassert url.startswith('https://www.sec.gov/Archives/edgar/data/')\nurl\n\n'https://www.sec.gov/Archives/edgar/data/320193/000032019323000077/aapl-20230701.htm'\n\n\n\n\nDownload 10-Q HTML split into sections\n\nhtml = retriever.get_report_html('10-Q', url)\nassert html\n\n\nfor line in html.splitlines():\n    print(line[:65] + '...')\n\n&lt;top-level-section-separator id=\"part1item1\" title=\"Financial Statemen...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part1item2\" title=\"Management's Discu...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part1item3\" title=\"Quantitative and Q...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part1item4\" title=\"Controls and Proce...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item1\" title=\"Legal Proceedings\"...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item1a\" title=\"Risk Factors\" com...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item2\" title=\"Unregistered Sales...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item3\" title=\"Defaults Upon Seni...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item4\" title=\"Mine Safety Disclo...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item5\" title=\"Other Information\"...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon...\n&lt;top-level-section-separator id=\"part2item6\" title=\"Exhibits\" comment=...\n&lt;span style=\"color:#000000;font-family:'Helvetica',sans-serif;fon..."
+  },
+  {
+    "objectID": "index.html#contributing",
+    "href": "index.html#contributing",
+    "title": "sec-api-io",
+    "section": "Contributing",
+    "text": "Contributing\nFollow these steps to install the project locally for development:\n\nInstall the project with the command pip install -e \".[dev]\".\n\n\nNote We highly recommend using virtual environments for Python development. If you’d like to use virtual environments, follow these steps instead: - Create a virtual environment python3 -m venv .venv - Activate the virtual environment source .venv/bin/activate - Install the project with the command pip install -e \".[dev]\""
+  }
+]
